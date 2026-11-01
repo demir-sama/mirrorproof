@@ -9,7 +9,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
     if (!r.outputs) return Response.json({ status: r.status || "running" });
     return Response.json({
       status: "success",
-      results: r.outputs.map((o) => ({ type: o.type, ui: o.ui_score, raw: o.raw_score, maskUrl: o.mask_urls?.[0] })),
+      results: r.outputs.filter((o) => typeof o.ui_score === 'number').map((o) => ({ type: o.type, ui: o.ui_score, raw: o.raw_score, maskUrl: o.mask_urls?.[0] })),
     });
   } catch (e) {
     console.error("scan poll", e);
